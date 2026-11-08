@@ -197,7 +197,7 @@ export default function Projects() {
     return `"${safe.replace(/"/g, '""')}"`;
   };
   const exportCsv = () => {
-    const headers = ['Project / Contract', 'Contractor', 'Category', 'Year', 'Amount (PHP)', 'Status', 'Location', 'Latitude', 'Longitude'];
+    const headers = ['Project', 'Contract ID', 'Contractor', 'Category', 'Year', 'Amount (PHP)', 'Status', 'Location', 'Latitude', 'Longitude'];
     const rows = exportRows.map(p => [p.name, p.id, p.contractor, p.category, p.year, p.amount ?? '', p.status, p.location, p.latitude ?? '', p.longitude ?? '']);
     const csv = [headers, ...rows].map(row => row.map(csvCell).join(',')).join('\\r\\n');
     const url = URL.createObjectURL(new Blob(['\\uFEFF', csv], { type: 'text/csv;charset=utf-8;' }));
