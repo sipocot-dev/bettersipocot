@@ -23,10 +23,10 @@ export default function HealthServices() {
       && (ownership === 'All' || facility.ownership === ownership);
   }), [query, type, ownership]);
 
-  const typeOptions = ['All', 'Hospital', 'Rural health unit', 'Birthing clinic', 'Medical clinic', 'Barangay health station'];
+  const typeOptions = ['All', 'Hospital', 'Rural health unit', 'Birthing clinic', 'Medical clinic', 'Dental clinic', 'Barangay health station'];
 
   return <>
-    <SEO title="Health Facilities in Sipocot" description="Find hospitals, rural health units, birthing clinics, medical clinics and barangay health stations in Sipocot, Camarines Sur." keywords="Sipocot hospital, Sipocot clinics, Sipocot RHU, birthing clinic, health center, Camarines Sur" />
+    <SEO title="Health Facilities in Sipocot" description="Find hospitals, rural health units, birthing clinics, dentists, medical clinics and barangay health stations in Sipocot, Camarines Sur." keywords="Sipocot hospital, Sipocot clinics, Sipocot RHU, birthing clinic, health center, Camarines Sur" />
     <section className="w-full bg-[#0b3b8c] text-white">
       <div className="container mx-auto px-4 py-10">
         <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-100">BetterSipocot · Health Services</p>
