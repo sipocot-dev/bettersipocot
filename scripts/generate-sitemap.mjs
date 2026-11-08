@@ -30,6 +30,15 @@ for (const [type, file] of [
   }
 }
 
+
+// Include the statically generated barangay directory and its detail routes.
+const barangaySource = fs.readFileSync(path.join(root, 'src/data/barangays.ts'), 'utf8');
+const barangaySlugs = [...barangaySource.matchAll(/slug: '([^']+)'/g)].map(match => match[1]);
+urls.push({ loc: '/government/barangays', priority: '0.8' });
+for (const slug of barangaySlugs) {
+  urls.push({ loc: `/government/barangays/${slug}`, priority: '0.6' });
+}
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
