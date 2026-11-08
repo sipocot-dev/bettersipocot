@@ -103,14 +103,15 @@ function ProjectMap({ projects }: { projects: Project[] }) {
       if (cancelled || !element.current) return;
       const mapInstance = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
       map = mapInstance;
-    const projectMarker = L.divIcon({ className: 'project-map-marker', html: '<span style="display:block;width:16px;height:16px;border:3px solid #fff;border-radius:50%;background:#2563eb;box-shadow:0 1px 5px rgba(0,0,0,.55)"></span>', iconSize: [18, 18], iconAnchor: [9, 9] });
+    const projectMarker = L.divIcon({ className: 'project-map-marker', html: '<span style="position:relative;display:block;width:26px;height:26px;background:#dc2626;border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 5px rgba(0,0,0,.4)"><span style="position:absolute;width:8px;height:8px;left:7px;top:7px;border-radius:50%;background:#fff"></span></span>', iconSize: [28, 28], iconAnchor: [14, 28], popupAnchor: [0, -26] });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
       }).addTo(mapInstance);
     const markers = points.map(project => {
       const marker = L.marker([project.latitude as number, project.longitude as number], { icon: projectMarker }).addTo(mapInstance);
-      marker.bindPopup(`<strong>${project.name.replace(/[&<>"]/g, '')}</strong><br/>${project.id.replace(/[&<>"]/g, '')}<br/>${money(project.amount)}`);
+      const safe = (value: string) => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char] ?? char);
+      marker.bindPopup(`<div style="min-width:220px"><strong>${safe(project.name)}</strong><p style="margin:5px 0;color:#64748b">${safe(project.id)} · ${safe(project.status)}</p><p style="margin:4px 0;font-weight:600">${safe(money(project.amount))}</p><a href="/projects/${encodeURIComponent(project.id)}" style="display:block;margin-top:10px;padding:9px 12px;border-radius:6px;background:#1d4ed8;color:#fff;text-align:center;text-decoration:none;font-weight:600">View Project Information</a></div>`, { maxWidth: 300 });
       return marker;
     });
     if (markers.length > 1) mapInstance.fitBounds(L.featureGroup(markers).getBounds().pad(0.12));
