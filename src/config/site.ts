@@ -19,6 +19,8 @@ export const siteConfig = {
   location: `${name}, ${province}`,
   brand: `Better ${name}.org`,
   url,
+  // Approximate centre of the municipality (poblacion), used for weather and map
+  coordinates: { lat: 13.7667, lng: 122.9833 },
   email: env.VITE_CONTACT_EMAIL || 'info@bettersipocot.org',
   phone: env.VITE_CONTACT_PHONE || '+639491216781',
   description:

@@ -11,7 +11,14 @@
     "contactUs": "Contact Us",
     "population": "Residents (2024)",
     "barangays": "Barangays",
-    "region": "Bicol"
+    "region": "Bicol",
+    "viewServices": "View All Services",
+    "government": "Government",
+    "helpTitle": "How can we help you?",
+    "helpSubtitle": "Find services, departments, and government information quickly.",
+    "searchPlaceholder": "Search services, departments…",
+    "search": "Search",
+    "suggestions": "Key suggestions"
   },
   "services": {
     "title": "Services & Information",
@@ -25,7 +32,18 @@
     "description": "Stay updated with the latest government activities and announcements."
   },
   "weather": {
-    "title": "Weather Updates"
+    "title": "Weather Updates",
+    "subtitle": "Current conditions in {{location}}",
+    "refresh": "Refresh weather",
+    "updated": "Updated {{time}}",
+    "currentConditions": "Current Conditions",
+    "humidity": "Humidity",
+    "windSpeed": "Wind Speed",
+    "feelsLike": "Feels Like",
+    "visibility": "Visibility",
+    "error": "Weather data is unavailable right now. Please try again later.",
+    "loading": "Loading weather…",
+    "credit": "Weather data by Open-Meteo.com"
   },
   "forex": {
     "title": "Foreign Exchange Rates"
