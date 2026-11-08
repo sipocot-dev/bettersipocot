@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { useQueryState } from 'nuqs';
 import { Search as SearchIcon } from 'lucide-react';
-import { searchClient, SEARCH_INDEX } from '../lib/meilisearch';
+import { searchContent } from '../lib/searchIndex';
 import type { SearchHit } from '../lib/meilisearch';
 
 export default function Search() {
@@ -24,9 +24,7 @@ export default function Search() {
       setIsLoading(true);
       setError(null);
       try {
-        const index = searchClient!.index(SEARCH_INDEX);
-        const res = await index.search<SearchHit>(query, { limit: 20 });
-        setResults(res.hits);
+        setResults(await searchContent(query));
         setHasSearched(true);
       } catch {
         setError('Search is unavailable. Please try again later.');
