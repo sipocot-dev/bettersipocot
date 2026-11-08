@@ -194,7 +194,7 @@ export default function Projects() {
   const exportRows = filtered;
   const csvCell = (value: unknown) => {
     const raw = String(value ?? '');
-    const safe = /^[=+\\-@\\t\\r]/.test(raw) ? `'${raw}` : raw;
+    const safe = /^[=+@]/.test(raw) || raw.startsWith('-') || raw.startsWith('\t') || raw.startsWith('\r') ? `'${raw}` : raw;
     return `"${safe.replace(/"/g, '""')}"`;
   };
   const exportCsv = () => {
