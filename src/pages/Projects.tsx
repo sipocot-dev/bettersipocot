@@ -149,7 +149,6 @@ export default function Projects() {
   }), [projects, query, status]);
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visible = filtered.slice((page - 1) * pageSize, page * pageSize);
-  const totalCost = filtered.reduce((sum, p) => sum + (p.amount ?? 0), 0);
   const mapped = filtered.filter(p => p.latitude !== null && p.longitude !== null).length;
 
   return <>
