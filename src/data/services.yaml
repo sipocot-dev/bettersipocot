@@ -4,6 +4,12 @@
 # Non-technical users can easily edit this file to add, remove, or modify service categories
 
 categories:
+  # Faith & Worship Directory
+  - category: 'Churches & Worship'
+    slug: 'churches-worship'
+    description: 'Find churches, Catholic parishes, chapels, mission stations, clergy assignments, and worship communities across Sipocot.'
+    icon: 'Church'
+
   # Health Services
   - category: 'Health Services'
     slug: 'health-services'
