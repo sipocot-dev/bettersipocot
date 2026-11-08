@@ -188,19 +188,19 @@ const Navbar: React.FC = () => {
         <div className="container mx-auto px-2 pt-2 pb-4 space-y-1 border-t border-gray-200 bg-white">
           {mainNavigation.map(item => (
             <div key={item.label}>
-              <button
-                onClick={() => toggleSubmenu(item.label)}
-                className="w-full flex justify-between items-center px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-500"
-              >
-                {item.label === 'Statistics' || item.label === 'Barangays' ? item.label : t(`navbar.${item.label.toLowerCase()}`)}
-                {item.children && (
-                  <ChevronDown
-                    className={`h-5 w-5 transition-transform ${
-                      activeMenu === item.label ? 'transform rotate-180' : ''
-                    }`}
-                  />
-                )}
-              </button>
+              {item.children ? (
+                <button
+                  onClick={() => toggleSubmenu(item.label)}
+                  className="w-full flex justify-between items-center px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-500"
+                >
+                  {t(`navbar.${item.label.toLowerCase()}`)}
+                  <ChevronDown className={`h-5 w-5 transition-transform ${activeMenu === item.label ? 'transform rotate-180' : ''}`} />
+                </button>
+              ) : (
+                <Link to={item.href} onClick={closeMenu} className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-500">
+                  {item.label}
+                </Link>
+              )}
               {item.children && activeMenu === item.label && (
                 <div className="pl-6 py-2 space-y-1 bg-gray-50">
                   {item.children.map(child => (
