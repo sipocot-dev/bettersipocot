@@ -1,5 +1,6 @@
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
@@ -38,6 +39,7 @@ function App() {
             </Routes>
             <Footer />
           </div>
+          <Analytics />
         </NuqsAdapter>
       </Router>
     </HelmetProvider>
