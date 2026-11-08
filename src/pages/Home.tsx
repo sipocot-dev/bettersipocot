@@ -6,11 +6,7 @@ import SEO from '../components/SEO';
 const Home: React.FC = () => {
   return (
     <>
-      <SEO
-        title="Home"
-        description="Official website of your local government. Access government services, information, and resources."
-        keywords="government, local government, services, public services, civic services"
-      />
+      <SEO />
       <main className="flex-grow">
         <Hero />
         <ServicesSection />

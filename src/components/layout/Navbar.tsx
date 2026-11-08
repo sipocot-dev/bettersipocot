@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../i18n/languages';
 import { isMeilisearchEnabled } from '../../lib/meilisearch';
 import HotlineBar from './HotlineBar';
+import { siteConfig } from '../../config/site';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,8 +100,7 @@ const Navbar: React.FC = () => {
               />
               <div>
                 <div className="text-black font-bold">
-                  {import.meta.env.VITE_GOVERNMENT_NAME},{' '}
-                  {import.meta.env.VITE_PROVINCE}
+                  {siteConfig.location}
                 </div>
                 <div className="text-xs text-gray-800">
                   {t('site_description')}

@@ -1,0 +1,18 @@
+{
+  "name": "Better Sipocot.org",
+  "short_name": "Better Sipocot",
+  "description": "A community-run portal for the Municipality of Sipocot, Camarines Sur.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#003d8d",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
