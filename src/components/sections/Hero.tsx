@@ -3,8 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router';
 import { ArrowRight, MapPin, Search } from 'lucide-react';
 import { siteConfig } from '../../config/site';
-import { isMeilisearchEnabled } from '../../lib/meilisearch';
-import { serviceCategories } from '../../data/yamlLoader';
+
+// Suggested searches; each should match pages in content/services
+const SUGGESTIONS = [
+  'Business permit',
+  'Barangay clearance',
+  'Health services',
+  'Scholarship',
+  'Social welfare',
+];
 
 export default function Hero() {
   const { t } = useTranslation();
@@ -96,42 +103,40 @@ export default function Hero() {
                 {t('hero.helpSubtitle')}
               </p>
 
-              {isMeilisearchEnabled && (
-                <form onSubmit={onSearch} className="mb-5">
-                  <div className="relative flex items-center">
-                    <Search
-                      className="pointer-events-none absolute left-4 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <input
-                      type="search"
-                      value={query}
-                      onChange={e => setQuery(e.target.value)}
-                      placeholder={t('hero.searchPlaceholder')}
-                      aria-label={t('hero.search')}
-                      className="w-full rounded-xl border border-gray-200 py-4 pl-11 pr-28 text-sm text-gray-900 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    />
-                    <button
-                      type="submit"
-                      className="absolute right-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
-                    >
-                      {t('hero.search')}
-                    </button>
-                  </div>
-                </form>
-              )}
+              <form onSubmit={onSearch} className="mb-5">
+                <div className="relative flex items-center">
+                  <Search
+                    className="pointer-events-none absolute left-4 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                    placeholder={t('hero.searchPlaceholder')}
+                    aria-label={t('hero.search')}
+                    className="w-full rounded-xl border border-gray-200 py-4 pl-11 pr-28 text-sm text-gray-900 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
+                  >
+                    {t('hero.search')}
+                  </button>
+                </div>
+              </form>
 
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">
                 {t('hero.suggestions')}
               </p>
               <div className="flex flex-wrap gap-2">
-                {serviceCategories.categories.slice(0, 6).map(category => (
+                {SUGGESTIONS.map(term => (
                   <Link
-                    key={category.slug}
-                    to={`/services/${category.slug}`}
+                    key={term}
+                    to={`/search?q=${encodeURIComponent(term)}`}
                     className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600 transition hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700"
                   >
-                    {category.category}
+                    {term}
                   </Link>
                 ))}
               </div>
