@@ -1,6 +1,6 @@
 export type HealthFacility = {
   name: string;
-  type: 'Hospital' | 'Rural health unit' | 'Birthing clinic' | 'Medical clinic' | 'Barangay health station';
+  type: 'Hospital' | 'Rural health unit' | 'Birthing clinic' | 'Medical clinic' | 'Dental clinic' | 'Barangay health station';
   ownership: 'Public' | 'Private';
   address: string;
   barangay?: string;
@@ -141,6 +141,39 @@ export const sipocotHealthFacilities: HealthFacility[] = [
     source: 'Local health facility directory',
     sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
     mapQuery: 'Bulawan Barangay Health Station Sipocot',
+  },
+  {
+    name: 'Revilla Dental Clinic',
+    type: 'Dental clinic',
+    ownership: 'Private',
+    address: '25 Tagonzar Street, Sipocot, Camarines Sur 4408',
+    barangay: 'Sipocot Poblacion',
+    phone: '+63 926 263 7718',
+    source: 'Local dental directory listing',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/dentists/',
+    mapQuery: 'Revilla Dental Clinic 25 Tagonzar Street Sipocot Camarines Sur',
+  },
+  {
+    name: 'Staywell Dental Center – Sipocot',
+    type: 'Dental clinic',
+    ownership: 'Private',
+    address: 'QX2F+PVW, Sipocot, Camarines Sur (Tara area)',
+    barangay: 'Tara',
+    phone: '+63 970 867 9086',
+    source: 'Local business listing',
+    sourceUrl: 'https://www.google.com/maps/search/?api=1&query=Staywell+Dental+Center+Sipocot',
+    mapQuery: 'Staywell Dental Center Sipocot Camarines Sur',
+  },
+  {
+    name: 'M.C. Bonto Dental Clinic',
+    type: 'Dental clinic',
+    ownership: 'Private',
+    address: 'Criston Dormitel, Impig, Sipocot, Camarines Sur',
+    barangay: 'Impig',
+    phone: '+63 908 861 9425',
+    source: 'Local business listing; PhilHealth accredited dentist directory reference',
+    sourceUrl: 'https://www.philhealth.gov.ph/partners/providers/professional/accredited/Dentists_08312025.pdf',
+    mapQuery: 'M C Bonto Dental Clinic Criston Dormitel Impig Sipocot',
   },
 ];
 
