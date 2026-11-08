@@ -58,7 +58,9 @@
     "government": "Government",
     "services": "Services",
     "hotlines": "Hotlines",
-    "holidays": "Holidays"
+    "holidays": "Holidays",
+    "statistics": "Statistics",
+    "barangays": "Barangays"
   },
   "joinUs": {
     "stripTitle": "🚀 Join the #CivicTech Revolution",
