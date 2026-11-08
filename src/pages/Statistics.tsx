@@ -252,10 +252,10 @@ function PillarSection({ pillar }: { pillar: Pillar }) {
                   <tr key={item.name} className="even:bg-[#f7f7f7]">
                     <td className="border border-gray-200 px-3 py-3 text-left text-gray-900">{item.name}</td>
                     <td className={`border border-gray-200 px-3 py-3 text-center font-medium ${item.rankTrend === 'up' ? 'text-[#008a36]' : item.rankTrend === 'down' ? 'text-[#e00000]' : 'text-gray-900'}`}>
-                      {item.rankTrend === 'up' ? '⌃ ' : item.rankTrend === 'down' ? '⌄ ' : ''}{ordinal(item.rank)}
+                      {item.rankTrend === 'up' ? '↑ ' : item.rankTrend === 'down' ? '↓ ' : ''}{ordinal(item.rank)}
                     </td>
                     <td className={`border border-gray-200 px-3 py-3 text-center font-medium ${item.scoreTrend === 'up' ? 'text-[#008a36]' : item.scoreTrend === 'down' ? 'text-[#e00000]' : 'text-gray-900'}`}>
-                      {item.score === undefined ? '—' : item.score.toFixed(4)}{item.scoreTrend === 'up' ? ' ⌃' : item.scoreTrend === 'down' ? ' ⌄' : ''}
+                      {item.score === undefined ? '—' : item.score.toFixed(4)}{item.scoreTrend === 'up' ? ' ↑' : item.scoreTrend === 'down' ? ' ↓' : ''}
                     </td>
                   </tr>
                 ))}
