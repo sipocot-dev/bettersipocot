@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { ArrowRight, MapPin, Users } from 'lucide-react';
+import { siteConfig } from '../../config/site';
 
 export default function Hero() {
   const { t } = useTranslation();
-  const name = import.meta.env.VITE_GOVERNMENT_NAME;
-  const province = import.meta.env.VITE_PROVINCE;
-  const email = import.meta.env.VITE_CONTACT_EMAIL;
+  const { name, location, email } = siteConfig;
 
   return (
     <div className="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-600 text-white py-12 md:py-24">
@@ -14,7 +13,7 @@ export default function Hero() {
         <div className="animate-fade-in max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide">
             <MapPin className="h-4 w-4" aria-hidden="true" />
-            {name}, {province}
+            {location}
           </div>
 
           <h1 className="mt-6 mb-6 text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight">

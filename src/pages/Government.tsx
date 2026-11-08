@@ -15,6 +15,7 @@ import SEO from '../components/SEO';
 import { Card, CardContent } from '@bettergov/kapwa/card';
 import { Banner } from '@bettergov/kapwa/banner';
 import { useState, useEffect } from 'react';
+import { siteConfig } from '../config/site';
 
 const Government: React.FC = () => {
   const { category } = useParams();
@@ -49,12 +50,12 @@ const Government: React.FC = () => {
       <>
         <SEO
           title="Services"
-          description={`All services provided by the ${import.meta.env.VITE_GOVERNMENT_NAME} government. Find what you need for citizenship, business, education, and more.`}
+          description={`All services provided by the ${siteConfig.name} government. Find what you need for citizenship, business, education, and more.`}
           keywords="government services, public services, local government, civic services"
         />
         <GovernmentActivitySection
           title={`All local government services`}
-          description={`All services provided by the ${import.meta.env.VITE_GOVERNMENT_NAME} government. Find what you need for citizenship, business, education, and more.`}
+          description={`All services provided by the ${siteConfig.name} government. Find what you need for citizenship, business, education, and more.`}
         />
       </>
     );
