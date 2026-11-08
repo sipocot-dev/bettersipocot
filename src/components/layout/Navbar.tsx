@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
                   href={item.href}
                   className="flex items-center text-gray-700 hover:text-primary-600 font-medium transition-colors"
                 >
-                  {t(`navbar.${item.label.replace(' ', '').toLowerCase()}`)}
+                  {item.label === 'Statistics' || item.label === 'Barangays' ? item.label : t(`navbar.${item.label.replace(' ', '').toLowerCase()}`)}
                   {item.children && (
                     <ChevronDown className="ml-1 h-4 w-4 text-gray-800 group-hover:text-primary-600 transition-colors" />
                   )}
@@ -192,7 +192,7 @@ const Navbar: React.FC = () => {
                 onClick={() => toggleSubmenu(item.label)}
                 className="w-full flex justify-between items-center px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-500"
               >
-                {t(`navbar.${item.label.toLowerCase()}`)}
+                {item.label === 'Statistics' || item.label === 'Barangays' ? item.label : t(`navbar.${item.label.toLowerCase()}`)}
                 {item.children && (
                   <ChevronDown
                     className={`h-5 w-5 transition-transform ${
