@@ -101,8 +101,8 @@ const pillars: Pillar[] = [
 
 const ordinal = (value: number) => {
   const mod100 = value % 100;
-  if (mod100 >= 11 && mod100 <= 13) return \`\${value}th\`;
-  return \`\${value}\${value % 10 === 1 ? 'st' : value % 10 === 2 ? 'nd' : value % 10 === 3 ? 'rd' : 'th'}\`;
+  if (mod100 >= 11 && mod100 <= 13) return `${value}th`;
+  return `${value}${value % 10 === 1 ? 'st' : value % 10 === 2 ? 'nd' : value % 10 === 3 ? 'rd' : 'th'}`;
 };
 
 function RadarChart({ indicators }: { indicators: Indicator[] }) {
@@ -117,7 +117,7 @@ function RadarChart({ indicators }: { indicators: Indicator[] }) {
   const values = indicators.map(item => (totalMunicipalities + 1 - item.rank) / totalMunicipalities);
   const polygon = values.map((value, index) => {
     const p = point(index, value);
-    return \`\${p.x},\${p.y}\`;
+    return `${p.x},${p.y}`;
   }).join(' ');
   return (
     <div className="w-full">
@@ -125,12 +125,12 @@ function RadarChart({ indicators }: { indicators: Indicator[] }) {
         {[0.25, 0.5, 0.75, 1].map(scale => (
           <polygon key={scale} points={indicators.map((_, i) => {
             const p = point(i, scale);
-            return \`\${p.x},\${p.y}\`;
+            return `${p.x},${p.y}`;
           }).join(' ')} fill="none" stroke="#e5e7eb" strokeWidth="1" />
         ))}
         {indicators.map((item, index) => {
           const p = point(index, 1);
-          const label = item.name.length > 22 ? \`\${item.name.slice(0, 20)}…\` : item.name;
+          const label = item.name.length > 22 ? `${item.name.slice(0, 20)}…` : item.name;
           const anchor = p.x < center - 10 ? 'end' : p.x > center + 10 ? 'start' : 'middle';
           return (
             <g key={item.name}>
@@ -161,7 +161,7 @@ function IndicatorBarChart({ indicators }: { indicators: Indicator[] }) {
   const slot = width / indicators.length;
   return (
     <div className="w-full overflow-x-auto">
-      <svg viewBox={\`0 0 \${width} 310\`} className="min-w-[540px] w-full" role="img" aria-label="Bar chart of Sipocot indicator ranks">
+      <svg viewBox={`0 0 ${width} 310`} className="min-w-[540px] w-full" role="img" aria-label="Bar chart of Sipocot indicator ranks">
         <text x={width / 2} y="15" textAnchor="middle" fontSize="17" fill="#334155">2024 Ranking by Indicators</text>
         <text x={width / 2} y="32" textAnchor="middle" fontSize="10" fill="#64748b">1st to 2nd Class Municipalities (509)</text>
         <line x1="0" y1={chartBottom} x2={width} y2={chartBottom} stroke="#cbd5e1" />
