@@ -154,7 +154,7 @@ export default function Projects() {
         const normalized = allRows.map(normalizeProject);
         const sipocotProjects = normalized.filter(project => {
           const searchable = JSON.stringify(project.raw).toLowerCase();
-          return searchable.includes('sipocot') && (searchable.includes('camarines sur') || searchable.includes('region v'));
+          return searchable.includes('sipocot');
         });
         setProjects(sipocotProjects);
         setError('');
