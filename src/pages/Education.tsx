@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Building2, GraduationCap, Map as MapIcon, Search, Users, School, ExternalLink, List } from 'lucide-react';
 import Section from '../components/ui/Section';
 import SEO from '../components/SEO';
@@ -61,8 +61,8 @@ export default function Education() {
     const matchesQuery = `${school.name} ${school.barangay ?? ''} ${school.sector} ${school.level}`.toLowerCase().includes(query.toLowerCase());
     return matchesQuery && (sector === 'All' || school.sector === sector) && (level === 'All' || school.level === level);
   }), [query, sector, level]);
-  const mapped = filtered.filter(school => school.latitude != null && school.longitude != null);
-  const onSelect = (school: SchoolRecord) => setSelected(school);
+  const mapped = useMemo(() => filtered.filter(school => school.latitude != null && school.longitude != null), [filtered]);
+  const onSelect = useCallback((school: SchoolRecord) => setSelected(school), []);
 
   return <>
     <SEO title="Education in Sipocot" description="Explore public schools, private schools and higher education institutions in Sipocot, Camarines Sur. Browse the directory in table or map view." keywords="Sipocot schools, DepEd Sipocot, CBSUA Sipocot, education Camarines Sur" />
