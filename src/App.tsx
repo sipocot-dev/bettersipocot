@@ -12,6 +12,7 @@ import Government from './pages/Government';
 import Search from './pages/Search';
 import Statistics from './pages/Statistics';
 import Barangays, { BarangayDetail } from './pages/Barangays';
+import Projects from './pages/Projects';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                 element={<Document categoryType="government" />}
               />
               <Route path="/statistics" element={<Statistics />} />
+              <Route path="/projects" element={<Projects />} />
               <Route path="/search" element={<Search />} />
               <Route path="/:lang/:documentSlug" element={<Document />} />
               <Route path="/:documentSlug" element={<Document />} />
