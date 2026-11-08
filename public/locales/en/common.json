@@ -1,12 +1,17 @@
 {
-  "site_name": "Lapu Lapu City Portal",
-  "site_description": "A community-run portal for the Lapu Lapu City",
+  "site_name": "Sipocot, Camarines Sur",
+  "site_description": "A community-run portal for the Municipality of Sipocot",
   "hero": {
-    "title": "Welcome to BetterGov.ph",
-    "subtitle": "A community-run portal to find information of the Lapu Lapu City Government",
+    "title": "Better Sipocot.org",
+    "subtitle": "Access government services, information, and resources for the people of Sipocot, Camarines Sur.",
     "nationalId": "National ID",
     "birthCertificate": "Birth Certificate",
-    "businessRegistration": "Business Registration"
+    "businessRegistration": "Business Registration",
+    "browseServices": "Browse Services",
+    "contactUs": "Contact Us",
+    "population": "Residents (2024)",
+    "barangays": "Barangays",
+    "region": "Bicol"
   },
   "services": {
     "title": "Services & Information",
