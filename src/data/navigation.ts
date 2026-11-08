@@ -33,6 +33,10 @@ export const mainNavigation: NavigationItem[] = [
     label: 'Barangays',
     href: '/government/barangays',
   },
+  {
+    label: 'Projects',
+    href: '/projects',
+  },
 ];
 
 export const footerNavigation = {
