@@ -23,10 +23,10 @@ export default function HealthServices() {
       && (ownership === 'All' || facility.ownership === ownership);
   }), [query, type, ownership]);
 
-  const typeOptions = ['All', 'Hospital', 'Rural health unit', 'Birthing clinic', 'Medical clinic', 'Barangay health station'];
+  const typeOptions = ['All', 'Hospital', 'Rural health unit', 'Birthing clinic', 'Medical clinic', 'Dental clinic', 'Barangay health station'];
 
   return <>
-    <SEO title="Health Facilities in Sipocot" description="Find hospitals, rural health units, birthing clinics, medical clinics and barangay health stations in Sipocot, Camarines Sur." keywords="Sipocot hospital, Sipocot clinics, Sipocot RHU, birthing clinic, health center, Camarines Sur" />
+    <SEO title="Health Facilities in Sipocot" description="Find hospitals, rural health units, birthing clinics, dentists, medical clinics and barangay health stations in Sipocot, Camarines Sur." keywords="Sipocot hospital, Sipocot clinics, Sipocot RHU, birthing clinic, health center, Camarines Sur" />
     <section className="w-full bg-[#0b3b8c] text-white">
       <div className="container mx-auto px-4 py-10">
         <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-100">BetterSipocot · Health Services</p>
@@ -38,7 +38,7 @@ export default function HealthServices() {
     <Section className="px-4 pt-6">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {healthServiceLinks.map((item, index) => {
-          const Icon = [Hospital, Baby, Activity, ShieldCheck][index];
+          const Icon = [Hospital, Baby, Activity, Stethoscope, ShieldCheck][index];
           return <a key={item.title} href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noreferrer' : undefined}
             className="flex min-h-[104px] flex-col justify-center rounded-lg bg-[#0b3b8c] px-4 py-3 text-white shadow-sm transition-colors hover:bg-[#082d6b] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
             <span className="mb-2 flex items-center justify-between"><Icon className="h-5 w-5 text-blue-100"/>{item.external && <ExternalLink className="h-3.5 w-3.5 text-blue-100"/>}</span>
