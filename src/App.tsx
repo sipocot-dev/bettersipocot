@@ -17,6 +17,7 @@ import ProjectDetail from './pages/ProjectDetail';
 import Education from './pages/Education';
 import HealthServices from './pages/HealthServices';
 import Churches from './pages/Churches';
+import FaithMinistries from './pages/FaithMinistries';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/services/education" element={<Education />} />
               <Route path="/services/health-services" element={<HealthServices />} />
+              <Route path="/services/churches-worship/ministries-vocations" element={<FaithMinistries />} />
               <Route path="/services/churches-worship" element={<Churches />} />
               <Route path="/services/:category" element={<Services />} />
               <Route path="/services" element={<Services />} />
