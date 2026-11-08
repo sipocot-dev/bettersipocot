@@ -30,6 +30,8 @@ function App() {
                 path="/services/:category/:documentSlug"
                 element={<Document categoryType="service" />}
               />
+              <Route path="/government/barangays" element={<Barangays />} />
+              <Route path="/government/barangays/:slug" element={<BarangayDetail />} />
               <Route path="/government/:category" element={<Government />} />
               <Route path="/government" element={<Government />} />
               <Route
@@ -37,8 +39,6 @@ function App() {
                 element={<Document categoryType="government" />}
               />
               <Route path="/statistics" element={<Statistics />} />
-              <Route path="/government/barangays" element={<Barangays />} />
-              <Route path="/government/barangays/:slug" element={<BarangayDetail />} />
               <Route path="/search" element={<Search />} />
               <Route path="/:lang/:documentSlug" element={<Document />} />
               <Route path="/:documentSlug" element={<Document />} />
