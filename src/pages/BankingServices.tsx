@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Building2, CreditCard, ExternalLink, Landmark, Map as MapIcon, MapPin, Search, List, Wallet, Users } from 'lucide-react';
+import { Building2, CreditCard, ExternalLink, Landmark, Map as MapIcon, MapPin, Search, List, Users } from 'lucide-react';
 import Section from '../components/ui/Section';
 import SEO from '../components/SEO';
 import { sipocotFinancialProviders, bankingQuickLinks, type FinancialProvider } from '../data/financialProviders';
