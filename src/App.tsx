@@ -14,6 +14,7 @@ import Statistics from './pages/Statistics';
 import Barangays, { BarangayDetail } from './pages/Barangays';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
+import Education from './pages/Education';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <ScrollToTop />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/services/education" element={<Education />} />
               <Route path="/services/:category" element={<Services />} />
               <Route path="/services" element={<Services />} />
               <Route
