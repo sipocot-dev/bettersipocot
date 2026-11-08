@@ -1,0 +1,171 @@
+export type HealthFacility = {
+  name: string;
+  type: 'Hospital' | 'Rural health unit' | 'Birthing clinic' | 'Medical clinic' | 'Barangay health station';
+  ownership: 'Public' | 'Private';
+  address: string;
+  barangay?: string;
+  phone?: string;
+  source: string;
+  sourceUrl: string;
+  mapQuery?: string;
+};
+
+export const sipocotHealthFacilities: HealthFacility[] = [
+  {
+    name: 'Sipocot District Hospital',
+    type: 'Hospital',
+    ownership: 'Public',
+    address: 'National Road, South Centro, Sipocot, Camarines Sur',
+    barangay: 'South Centro',
+    source: 'DOH National TB Control Program facility directory',
+    sourceUrl: 'https://ntp.doh.gov.ph/resources/facilities/?yiiwp-page=315',
+    mapQuery: 'Sipocot District Hospital, South Centro, Sipocot, Camarines Sur',
+  },
+  {
+    name: 'Sipocot Rural Health Unit (RHU)',
+    type: 'Rural health unit',
+    ownership: 'Public',
+    address: 'Amargora Street, South Centro / South Central, Sipocot, Camarines Sur',
+    barangay: 'South Centro',
+    phone: '+63 939 807 4584',
+    source: 'DOH National TB Control Program facility profile',
+    sourceUrl: 'https://ntp.doh.gov.ph/view-facility/?id=11625',
+    mapQuery: 'Rural Health Unit Sipocot Amargora Street South Centro',
+  },
+  {
+    name: 'Sipocot Super Health Center',
+    type: 'Rural health unit',
+    ownership: 'Public',
+    address: 'Zone 6, Calagbangan, Sipocot, Camarines Sur (behind BFP Sipocot)',
+    barangay: 'Calagbangan',
+    source: 'LGU Sipocot public advisory, 16 May 2026',
+    sourceUrl: 'https://www.findhealthclinics.org/PH/Sipocot/109341178738174/Rural-Health-Unit---LGU-Sipocot',
+    mapQuery: 'Super Health Center Zone 6 Calagbangan Sipocot',
+  },
+  {
+    name: 'Ronjay Birthing Clinic – Tara',
+    type: 'Birthing clinic',
+    ownership: 'Private',
+    address: 'Zone 2, Barangay Tara, Sipocot, Camarines Sur',
+    barangay: 'Tara',
+    phone: '+63 908 516 4714',
+    source: 'PhilHealth accredited Maternity Care Clinics list, 31 May 2026',
+    sourceUrl: 'https://www.philhealth.gov.ph/partners/providers/facilities/accredited/MCP_053126.pdf',
+    mapQuery: 'Ronjay Birthing Clinic Zone 2 Tara Sipocot',
+  },
+  {
+    name: 'Ronjay Birthing Clinic – Calagbangan',
+    type: 'Birthing clinic',
+    ownership: 'Private',
+    address: 'Zone 8, Calagbangan, Sipocot, Camarines Sur',
+    barangay: 'Calagbangan',
+    source: 'PhilHealth accredited Maternity Care Clinics list, 31 May 2026',
+    sourceUrl: 'https://www.philhealth.gov.ph/partners/providers/facilities/accredited/MCP_053126.pdf',
+    mapQuery: 'Ronjay Birthing Clinic Zone 8 Calagbangan Sipocot',
+  },
+  {
+    name: 'St. Andrew Lying-in Clinic',
+    type: 'Birthing clinic',
+    ownership: 'Private',
+    address: 'QX6H+P36, Sipocot, Camarines Sur',
+    phone: '+63 946 077 7496',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'St Andrew Lying-in Clinic Sipocot Camarines Sur',
+  },
+  {
+    name: 'FRYDT Lying-in Clinic',
+    type: 'Birthing clinic',
+    ownership: 'Private',
+    address: 'QX6G+X9Q, Sipocot, Camarines Sur',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'FRYDT Lying-in Clinic Sipocot Camarines Sur',
+  },
+  {
+    name: 'BLC Medical Clinic',
+    type: 'Medical clinic',
+    ownership: 'Private',
+    address: '#335 Zone 3, San Juan Avenue, North Centro, Sipocot, Camarines Sur',
+    barangay: 'North Centro',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'BLC Medical Clinic San Juan Avenue Sipocot',
+  },
+  {
+    name: 'Antonia Olaño-Felizardo, M.D. OB-Gyne and Ultrasound Clinic',
+    type: 'Medical clinic',
+    ownership: 'Private',
+    address: 'Sipocot, Camarines Sur (reported in Barangay Azucena)',
+    barangay: 'Azucena',
+    source: 'Local facility listings and Camarines Sur health directory reference',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'Antonia Olano Felizardo OB Gyne Ultrasound Clinic Sipocot',
+  },
+  {
+    name: 'Alteza Barangay Health Station',
+    type: 'Barangay health station',
+    ownership: 'Public',
+    address: 'QXRC+XXC, Barangay Alteza, Sipocot, Camarines Sur',
+    barangay: 'Alteza',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'Alteza Barangay Health Station Sipocot',
+  },
+  {
+    name: 'Malubago Barangay Health Station',
+    type: 'Barangay health station',
+    ownership: 'Public',
+    address: 'QXCP+7JQ, Barangay Malubago, Sipocot, Camarines Sur',
+    barangay: 'Malubago',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'Malubago Barangay Health Station Sipocot',
+  },
+  {
+    name: 'Azucena Barangay Health Station',
+    type: 'Barangay health station',
+    ownership: 'Public',
+    address: 'QXG8+CC8, Barangay Azucena, Sipocot, Camarines Sur',
+    barangay: 'Azucena',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'Azucena Barangay Health Station Sipocot',
+  },
+  {
+    name: 'Bulawan Barangay Health Station',
+    type: 'Barangay health station',
+    ownership: 'Public',
+    address: 'PVPV+Q8W, Barangay Bulawan, Sipocot, Camarines Sur',
+    barangay: 'Bulawan',
+    source: 'Local health facility directory',
+    sourceUrl: 'https://www.cybo.com/PH/sipocot-camarines-sur/health-and-medical/',
+    mapQuery: 'Bulawan Barangay Health Station Sipocot',
+  },
+];
+
+export const healthServiceLinks = [
+  {
+    title: 'Find a Health Facility',
+    description: 'Hospitals, clinics, health centers and birthing facilities.',
+    href: '#health-directory',
+  },
+  {
+    title: 'Maternal & Child Health',
+    description: 'Maternity care, prenatal services and birthing clinic information.',
+    href: 'https://www.philhealth.gov.ph/partners/providers/facilities/accredited/MCP_053126.pdf',
+    external: true,
+  },
+  {
+    title: 'TB & Diagnostic Services',
+    description: 'Find DOH-listed TB-DOTS and diagnostic service facilities.',
+    href: 'https://ntp.doh.gov.ph/resources/facilities/?yiiwp-page=315',
+    external: true,
+  },
+  {
+    title: 'PhilHealth YAKAP & Benefits',
+    description: 'Check accredited primary care providers and benefit packages.',
+    href: 'https://www.philhealth.gov.ph/partners/providers/facilities/accredited/',
+    external: true,
+  },
+];
