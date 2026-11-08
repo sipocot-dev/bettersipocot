@@ -4,7 +4,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import SEO from '../components/SEO';
 
-const API_URL = 'https://api.dpwh.bettergov.ph/projects?page=1&limit=5000&search=Sipocot&region=Region+V&province=Camarines+Sur';
+const API_URL = 'https://api.dpwh.bettergov.ph/projects';
+const API_PAGE_SIZE = 5000;
 const DPWH_URL = 'https://transparency.dpwh.gov.ph/';
 const BISTO_URL = 'https://bisto.ph/';
 
@@ -59,11 +60,11 @@ function normalizeProject(raw: RawProject, index: number): Project {
     id: textValue(raw.contract_id, raw.contractId, raw.project_id, raw.projectId, raw.id, raw.contract_number, index + 1),
     name: textValue(raw.project_name, raw.projectName, raw.title, raw.description, raw.name),
     contractor: textValue(raw.contractor_name, raw.contractorName, raw.contractor, raw.winning_bidder),
-    amount: numeric(raw.contract_amount ?? raw.contractAmount ?? raw.amount ?? raw.project_cost ?? raw.projectCost ?? raw.cost),
+    amount: numeric(raw.contract_amount ?? raw.contractAmount ?? raw.amount ?? raw.project_cost ?? raw.projectCost ?? raw.cost ?? raw.budget),
     status: textValue(raw.status, raw.project_status, raw.projectStatus, raw.contract_status),
     category: textValue(raw.category, raw.project_category, raw.projectCategory, raw.type_of_work, raw.typeOfWork),
-    year: textValue(raw.infrastructure_year, raw.year, raw.fiscal_year, raw.fiscalYear),
-    location: textValue(raw.location_name, raw.project_location, raw.address, location.name, raw.barangay, 'Sipocot, Camarines Sur'),
+    year: textValue(raw.infrastructure_year, raw.infraYear, raw.year, raw.fiscal_year, raw.fiscalYear),
+    location: textValue(raw.location_name, raw.project_location, raw.address, location.name, location.municipality, location.city, location.barangay, raw.barangay, typeof raw.location === 'string' ? raw.location : null, 'Sipocot, Camarines Sur'),
     latitude: latitude !== null && latitude >= -90 && latitude <= 90 ? latitude : null,
     longitude: longitude !== null && longitude >= -180 && longitude <= 180 ? longitude : null,
     sourceUrl: textValue(raw.url, raw.source_url, raw.sourceUrl, raw.project_url) === '—' ? null : textValue(raw.url, raw.source_url, raw.sourceUrl, raw.project_url),
@@ -79,7 +80,7 @@ function extractRows(payload: unknown): RawProject[] {
     if (Array.isArray(candidate)) return candidate as RawProject[];
     if (candidate && typeof candidate === 'object') {
       const nested = candidate as Record<string, unknown>;
-      for (const key of ['projects', 'results', 'items', 'records']) {
+      for (const key of ['data', 'projects', 'results', 'items', 'records']) {
         if (Array.isArray(nested[key])) return nested[key] as RawProject[];
       }
     }
@@ -126,10 +127,36 @@ export default function Projects() {
     async function load() {
       try {
         setLoading(true);
-        const response = await fetch(API_URL, { signal: controller.signal, headers: { Accept: 'application/json' } });
-        if (!response.ok) throw new Error(`The projects API returned HTTP ${response.status}.`);
-        const payload: unknown = await response.json();
-        setProjects(extractRows(payload).map(normalizeProject));
+        const fetchPage = async (page: number): Promise<unknown> => {
+          const url = new URL(API_URL);
+          url.searchParams.set('page', String(page));
+          url.searchParams.set('limit', String(API_PAGE_SIZE));
+          const response = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } });
+          if (!response.ok) throw new Error(`The projects API returned HTTP ${response.status} on page ${page}.`);
+          return response.json();
+        };
+
+        const firstPayload = await fetchPage(1);
+        const firstRows = extractRows(firstPayload);
+        const root = firstPayload && typeof firstPayload === 'object' ? firstPayload as Record<string, unknown> : {};
+        const dataEnvelope = root.data && typeof root.data === 'object' ? root.data as Record<string, unknown> : {};
+        const pagination = dataEnvelope.pagination && typeof dataEnvelope.pagination === 'object'
+          ? dataEnvelope.pagination as Record<string, unknown>
+          : {};
+        const totalPages = Math.max(1, Math.min(100, numeric(pagination.totalPages) ?? 1));
+        const remainingPages = await Promise.all(
+          Array.from({ length: totalPages - 1 }, (_, index) => fetchPage(index + 2))
+        );
+        const allRows = [
+          ...firstRows,
+          ...remainingPages.flatMap(extractRows),
+        ];
+        const normalized = allRows.map(normalizeProject);
+        const sipocotProjects = normalized.filter(project => {
+          const searchable = JSON.stringify(project.raw).toLowerCase();
+          return searchable.includes('sipocot') && (searchable.includes('camarines sur') || searchable.includes('region v'));
+        });
+        setProjects(sipocotProjects);
         setError('');
       } catch (cause) {
         if (cause instanceof Error && cause.name === 'AbortError') return;
