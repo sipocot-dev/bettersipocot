@@ -5,7 +5,6 @@ import {
   ChevronDown,
   Globe,
   Search,
-  CheckCircle2,
 } from 'lucide-react';
 import { mainNavigation } from '../../data/navigation';
 import type { LanguageType } from '../../types/index';
@@ -97,12 +96,11 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <CheckCircle2 className="h-12 w-12 mr-3" />
-              {/* <img
-                src="/ph-logo.webp"
-                alt="Philippines Coat of Arms"
+              <img
+                src="/logo.png"
+                alt="Municipality of Sipocot seal"
                 className="h-12 w-12 mr-3"
-              /> */}
+              />
               <div>
                 <div className="text-black font-bold">
                   {import.meta.env.VITE_GOVERNMENT_NAME}
