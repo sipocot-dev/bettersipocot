@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  X,
-  Menu,
-  ChevronDown,
-  Globe,
-  Search,
-} from 'lucide-react';
+import { X, Menu, ChevronDown, Globe, Search } from 'lucide-react';
 import { mainNavigation } from '../../data/navigation';
 import type { LanguageType } from '../../types/index';
 import { Link } from 'react-router';
@@ -103,7 +97,8 @@ const Navbar: React.FC = () => {
               />
               <div>
                 <div className="text-black font-bold">
-                  {import.meta.env.VITE_GOVERNMENT_NAME}
+                  {import.meta.env.VITE_GOVERNMENT_NAME},{' '}
+                  {import.meta.env.VITE_PROVINCE}
                 </div>
                 <div className="text-xs text-gray-800">
                   {t('site_description')}
