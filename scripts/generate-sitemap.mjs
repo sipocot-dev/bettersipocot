@@ -12,7 +12,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 const read = file => load(fs.readFileSync(path.join(root, file), 'utf8'));
 
-const urls = [{ loc: '/', priority: '1.0' }];
+const urls = [{ loc: '/', priority: '1.0' }, { loc: '/projects', priority: '0.8' }];
 
 for (const [type, file] of [
   ['services', 'src/data/services.yaml'],
