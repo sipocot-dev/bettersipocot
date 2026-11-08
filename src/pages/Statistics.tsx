@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { BarChart3, Building2, ExternalLink, Globe, Mail, MapPin, Phone, Search, Users } from 'lucide-react';
+import { BarChart3, Building2, ExternalLink, Globe, MapPin, Search, Users } from 'lucide-react';
 import SEO from '../components/SEO';
 
 type Indicator = { name: string; rank: number };
@@ -195,7 +195,7 @@ function IndicatorBarChart({ indicators }: { indicators: Indicator[] }) {
   );
 }
 
-function PillarSection({ pillar, index }: { pillar: Pillar; index: number }) {
+function PillarSection({ pillar }: { pillar: Pillar }) {
   return (
     <section className="border-b border-gray-200 bg-white py-8 sm:py-10">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
@@ -323,7 +323,7 @@ export default function Statistics() {
           </div>
         </div>
 
-        {filteredPillars.map((pillar, index) => <PillarSection key={pillar.name} pillar={pillar} index={index} />)}
+        {filteredPillars.map(pillar => <PillarSection key={pillar.name} pillar={pillar} />)}
 
         <section className="bg-slate-50 py-8">
           <div className="mx-auto max-w-[1400px] px-4 text-xs leading-relaxed text-gray-500 sm:px-6">
