@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Building2, CircleDollarSign, ExternalLink, List, LoaderCircle, Map as MapIcon, MapPin, Search } from 'lucide-react';
-import L from 'leaflet';
+import { ArrowUpRight, Building2, CircleDollarSign, Download, ExternalLink, FileText, List, LoaderCircle, Map as MapIcon, MapPin, Search } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import SEO from '../components/SEO';
 
 const API_URL = 'https://api.dpwh.bettergov.ph/projects';
-const API_PAGE_SIZE = 5000;
+const API_PAGE_SIZE = 1000;
 const DPWH_URL = 'https://transparency.dpwh.gov.ph/';
 const BISTO_URL = 'https://bisto.ph/';
 
@@ -94,7 +93,11 @@ function ProjectMap({ projects }: { projects: Project[] }) {
   useEffect(() => {
     if (!element.current) return;
     const points = projects.filter(p => p.latitude !== null && p.longitude !== null);
-    const map = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
+    let map: import('leaflet').Map | undefined;
+    let cancelled = false;
+    void import('leaflet').then(({ default: L }) => {
+      if (cancelled || !element.current) return;
+      map = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
@@ -106,8 +109,9 @@ function ProjectMap({ projects }: { projects: Project[] }) {
     });
     if (markers.length > 1) map.fitBounds(L.featureGroup(markers).getBounds().pad(0.12));
     else if (markers.length === 1) map.setView([points[0].latitude as number, points[0].longitude as number], 14);
-    const timer = window.setTimeout(() => map.invalidateSize(), 100);
-    return () => { window.clearTimeout(timer); map.remove(); };
+      window.setTimeout(() => map?.invalidateSize(), 100);
+    });
+    return () => { cancelled = true; map?.remove(); };
   }, [projects]);
   return <div ref={element} className="h-[520px] w-full rounded-xl" aria-label="Map of Sipocot DPWH projects" />;
 }
@@ -131,6 +135,9 @@ export default function Projects() {
           const url = new URL(API_URL);
           url.searchParams.set('page', String(page));
           url.searchParams.set('limit', String(API_PAGE_SIZE));
+          url.searchParams.set('search', 'Sipocot');
+          url.searchParams.set('region', 'Region V');
+          url.searchParams.set('province', 'Camarines Sur');
           const response = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } });
           if (!response.ok) throw new Error(`The projects API returned HTTP ${response.status} on page ${page}.`);
           return response.json();
@@ -144,19 +151,16 @@ export default function Projects() {
           ? dataEnvelope.pagination as Record<string, unknown>
           : {};
         const totalPages = Math.max(1, Math.min(100, numeric(pagination.totalPages) ?? 1));
-        const remainingPages = await Promise.all(
+        const remainingPages = totalPages > 1 ? await Promise.all(
           Array.from({ length: totalPages - 1 }, (_, index) => fetchPage(index + 2))
-        );
+        ) : [];
         const allRows = [
           ...firstRows,
           ...remainingPages.flatMap(extractRows),
         ];
         const normalized = allRows.map(normalizeProject);
-        const sipocotProjects = normalized.filter(project => {
-          const searchable = JSON.stringify(project.raw).toLowerCase();
-          return searchable.includes('sipocot');
-        });
-        setProjects(sipocotProjects);
+        const sipocotProjects = normalized.filter(project => JSON.stringify(project.raw).toLowerCase().includes('sipocot'));
+        setProjects(sipocotProjects.length > 0 ? sipocotProjects : normalized);
         setError('');
       } catch (cause) {
         if (cause instanceof Error && cause.name === 'AbortError') return;
@@ -177,6 +181,36 @@ export default function Projects() {
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visible = filtered.slice((page - 1) * pageSize, page * pageSize);
   const mapped = filtered.filter(p => p.latitude !== null && p.longitude !== null).length;
+
+  const statusStyle = (value: string) => {
+    const normalized = value.toLowerCase().replace(/[ _]/g, '-');
+    if (normalized.includes('completed')) return 'bg-emerald-100 text-emerald-800';
+    if (normalized.includes('ongoing') || normalized.includes('on-going') || normalized.includes('in-progress')) return 'bg-blue-100 text-blue-800';
+    if (normalized.includes('not-yet-started') || normalized.includes('planned') || normalized.includes('for-procurement')) return 'bg-amber-100 text-amber-800';
+    if (normalized.includes('suspended') || normalized.includes('terminated') || normalized.includes('cancelled')) return 'bg-red-100 text-red-800';
+    return 'bg-gray-100 text-gray-700';
+  };
+  const exportRows = filtered;
+  const csvCell = (value: unknown) => {
+    const raw = String(value ?? '');
+    const safe = /^[=+\\-@\\t\\r]/.test(raw) ? `'${raw}` : raw;
+    return `"${safe.replace(/"/g, '""')}"`;
+  };
+  const exportCsv = () => {
+    const headers = ['Project / Contract', 'Contractor', 'Category', 'Year', 'Amount (PHP)', 'Status', 'Location', 'Latitude', 'Longitude'];
+    const rows = exportRows.map(p => [p.name, p.id, p.contractor, p.category, p.year, p.amount ?? '', p.status, p.location, p.latitude ?? '', p.longitude ?? '']);
+    const csv = [headers, ...rows].map(row => row.map(csvCell).join(',')).join('\\r\\n');
+    const url = URL.createObjectURL(new Blob(['\\uFEFF', csv], { type: 'text/csv;charset=utf-8;' }));
+    const link = document.createElement('a'); link.href = url; link.download = 'sipocot-dpwh-projects.csv'; link.click(); URL.revokeObjectURL(url);
+  };
+  const exportPdf = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+    const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>\"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#39;' })[char] ?? char);
+    const body = exportRows.map(p => `<tr><td>${escapeHtml(p.name)}<br><small>${escapeHtml(p.id)}</small></td><td>${escapeHtml(p.contractor)}</td><td>${escapeHtml(p.category)}</td><td>${escapeHtml(p.year)}</td><td>${escapeHtml(money(p.amount))}</td><td>${escapeHtml(p.status)}</td><td>${escapeHtml(p.location)}</td></tr>`).join('');
+    printWindow.document.write(`<!doctype html><html><head><title>Sipocot DPWH Projects</title><style>body{font:11px Arial,sans-serif;color:#111;padding:20px}h1{font-size:20px}p{color:#555}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px;text-align:left;vertical-align:top}th{background:#eee}small{color:#666}@media print{body{padding:0}tr{break-inside:avoid}}</style></head><body><h1>DPWH Infrastructure Projects in Sipocot</h1><p>${exportRows.length} projects · Exported ${new Date().toLocaleString('en-PH')}</p><table><thead><tr><th>Project / Contract</th><th>Contractor</th><th>Category</th><th>Year</th><th>Amount</th><th>Status</th><th>Location</th></tr></thead><tbody>${body}</tbody></table><script>window.onload=()=>window.print()<\\/script></body></html>`);
+    printWindow.document.close();
+  };
 
   return <>
     <SEO title="DPWH Infrastructure Projects in Sipocot" description="Explore DPWH infrastructure contracts in Sipocot, Camarines Sur with searchable project records, contract amounts, status and a map view." keywords="Sipocot projects, DPWH projects, infrastructure, Camarines Sur, public works" />
@@ -200,16 +234,20 @@ export default function Projects() {
             <label className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5"><Search className="h-4 w-4 text-gray-400"/><input value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}} placeholder="Search project, contractor, location…" className="w-full bg-transparent text-sm outline-none sm:w-72"/></label>
             <select value={status} onChange={e=>{setStatus(e.target.value);setPage(1);}} className="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"><option value="All">All statuses</option>{statuses.slice(1).map(s=><option key={s}>{s}</option>)}</select>
           </div>
+          <div className="flex flex-wrap items-center gap-2">
+          <button onClick={exportCsv} disabled={loading || filtered.length === 0} className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 disabled:opacity-40"><Download className="h-4 w-4"/>CSV</button>
+          <button onClick={exportPdf} disabled={loading || filtered.length === 0} className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 disabled:opacity-40"><FileText className="h-4 w-4"/>PDF</button>
           <div className="inline-flex self-start rounded-lg border border-gray-300 bg-white p-1">
             <button onClick={()=>setView('table')} className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold ${view==='table'?'bg-primary-600 text-white':'text-gray-600 hover:bg-gray-100'}`}><List className="h-4 w-4"/>Table</button>
             <button onClick={()=>setView('map')} className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold ${view==='map'?'bg-primary-600 text-white':'text-gray-600 hover:bg-gray-100'}`}><MapIcon className="h-4 w-4"/>Map</button>
+          </div>
           </div>
         </div>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-sm text-gray-500"><span>{loading ? 'Loading DPWH records…' : `Showing ${filtered.length.toLocaleString('en-PH')} matching projects`}</span>{loading&&<LoaderCircle className="h-4 w-4 animate-spin"/>}</div>
         {view==='map' ? <div className="rounded-xl border border-gray-200 bg-white p-3 sm:p-4"><div className="mb-3 flex items-center justify-between"><h2 className="font-bold text-gray-900">Project locations</h2><span className="text-xs text-gray-500">{mapped} mapped · {filtered.length-mapped} without coordinates</span></div>{!loading&&<ProjectMap projects={filtered}/>} {!loading&&mapped===0&&<p className="py-4 text-sm text-gray-500">No coordinate data was returned for the current results.</p>}</div> : <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
           <div className="overflow-x-auto"><table className="w-full min-w-[980px] border-collapse text-left text-sm">
             <thead className="bg-gray-100 text-xs uppercase tracking-wide text-gray-600"><tr><th className="px-4 py-3">Project / Contract</th><th className="px-4 py-3">Contractor</th><th className="px-4 py-3">Category</th><th className="px-4 py-3">Year</th><th className="px-4 py-3 text-right">Amount</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Location</th></tr></thead>
-            <tbody className="divide-y divide-gray-100">{visible.map(p=><tr key={p.id} className="align-top hover:bg-gray-50"><td className="max-w-[380px] px-4 py-4"><div className="font-semibold text-gray-900">{p.name}</div><div className="mt-1 text-xs text-gray-500">{p.id}</div>{p.sourceUrl&&<a href={p.sourceUrl} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1 text-xs text-primary-700 hover:underline">Project source <ArrowUpRight className="h-3 w-3"/></a>}</td><td className="max-w-[200px] px-4 py-4 text-gray-700">{p.contractor}</td><td className="px-4 py-4 text-gray-700">{p.category}</td><td className="px-4 py-4 text-gray-700">{p.year}</td><td className="whitespace-nowrap px-4 py-4 text-right font-semibold text-gray-900">{money(p.amount)}</td><td className="px-4 py-4"><span className="inline-flex rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">{p.status}</span></td><td className="max-w-[220px] px-4 py-4 text-gray-700">{p.location}</td></tr>)}</tbody>
+            <tbody className="divide-y divide-gray-100">{visible.map(p=><tr key={p.id} className="align-top hover:bg-gray-50"><td className="max-w-[380px] px-4 py-4"><div className="font-semibold text-gray-900">{p.name}</div><div className="mt-1 text-xs text-gray-500">{p.id}</div>{p.sourceUrl&&<a href={p.sourceUrl} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1 text-xs text-primary-700 hover:underline">Project source <ArrowUpRight className="h-3 w-3"/></a>}</td><td className="max-w-[200px] px-4 py-4 text-gray-700">{p.contractor}</td><td className="px-4 py-4 text-gray-700">{p.category}</td><td className="px-4 py-4 text-gray-700">{p.year}</td><td className="whitespace-nowrap px-4 py-4 text-right font-semibold text-gray-900">{money(p.amount)}</td><td className="px-4 py-4"><span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyle(p.status)}`}>{p.status}</span></td><td className="max-w-[220px] px-4 py-4 text-gray-700">{p.location}</td></tr>)}</tbody>
           </table></div>
           {!loading&&filtered.length>0&&<div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 px-4 py-3 text-sm"><span className="text-gray-500">Page {page} of {pageCount}</span><div className="flex gap-2"><button disabled={page===1} onClick={()=>setPage(p=>Math.max(1,p-1))} className="rounded-md border px-3 py-1.5 disabled:opacity-40">Previous</button><button disabled={page===pageCount} onClick={()=>setPage(p=>Math.min(pageCount,p+1))} className="rounded-md border px-3 py-1.5 disabled:opacity-40">Next</button></div></div>}
           {!loading&&filtered.length===0&&<p className="p-10 text-center text-sm text-gray-500">No projects match these filters.</p>}
