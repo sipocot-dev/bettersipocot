@@ -97,18 +97,19 @@ function ProjectMap({ projects }: { projects: Project[] }) {
     let cancelled = false;
     void import('leaflet').then(({ default: L }) => {
       if (cancelled || !element.current) return;
-      map = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
+      const mapInstance = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
+      map = mapInstance;
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
-    }).addTo(map);
+      }).addTo(mapInstance);
     const markers = points.map(project => {
-      const marker = L.marker([project.latitude as number, project.longitude as number]).addTo(map);
+      const marker = L.marker([project.latitude as number, project.longitude as number]).addTo(mapInstance);
       marker.bindPopup(`<strong>${project.name.replace(/[&<>"]/g, '')}</strong><br/>${project.id.replace(/[&<>"]/g, '')}<br/>${money(project.amount)}`);
       return marker;
     });
-    if (markers.length > 1) map.fitBounds(L.featureGroup(markers).getBounds().pad(0.12));
-    else if (markers.length === 1) map.setView([points[0].latitude as number, points[0].longitude as number], 14);
+    if (markers.length > 1) mapInstance.fitBounds(L.featureGroup(markers).getBounds().pad(0.12));
+    else if (markers.length === 1) mapInstance.setView([points[0].latitude as number, points[0].longitude as number], 14);
       window.setTimeout(() => map?.invalidateSize(), 100);
     });
     return () => { cancelled = true; map?.remove(); };
