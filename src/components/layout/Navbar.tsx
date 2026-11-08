@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
                   href={item.href}
                   className="flex items-center text-gray-700 hover:text-primary-600 font-medium transition-colors"
                 >
-                  {item.label === 'Statistics' || item.label === 'Barangays' ? item.label : t(`navbar.${item.label.replace(' ', '').toLowerCase()}`)}
+                  {item.label === 'Statistics' || item.label === 'Barangays' || item.label === 'Projects' ? item.label : t(`navbar.${item.label.replace(' ', '').toLowerCase()}`)}
                   {item.children && (
                     <ChevronDown className="ml-1 h-4 w-4 text-gray-800 group-hover:text-primary-600 transition-colors" />
                   )}
