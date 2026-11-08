@@ -32,7 +32,7 @@ function getCompleteRecord(record: RecordValue): RecordValue {
   return { ...raw, ...record };
 }
 function label(key: string): string {
-  return key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\\b\\w/g, c => c.toUpperCase());
+  return key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 function display(value: unknown): string {
   if (value === null || value === undefined || value === '') return '—';
@@ -109,7 +109,7 @@ export default function ProjectDetail() {
   const completionDate = record?.completionDate ?? record?.completion_date;
   const coordinates = record ? [record.latitude ?? (record.location as RecordValue | undefined)?.latitude, record.longitude ?? (record.location as RecordValue | undefined)?.longitude] : [];
   const components = record?.components ?? record?.projectComponents ?? record?.componentCategories;
-  const documents = fields.filter(([key, value]) => /document|file|attachment|advertisement|contract.?agreement|notice.?of|url/i.test(key) && typeof value === 'string' && /^https?:\\/\\//i.test(value));
+  const documents = fields.filter(([key, value]) => /document|file|attachment|advertisement|contract.?agreement|notice.?of|url/i.test(key) && typeof value === 'string' && /^https?:\/\//i.test(value));
   const ordinaryFields = fields.filter(([key]) => !documents.some(([docKey]) => docKey === key));
 
   return <>
