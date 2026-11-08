@@ -146,7 +146,7 @@ export default function ProjectDetail() {
                 <dl className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2">
                   {ordinaryFields.map(([key,value]) => <div key={key} className="min-w-0"><dt className="text-xs text-gray-500">{label(key)}</dt><dd className="mt-1 break-words text-sm font-medium text-gray-900">{display(value)}</dd></div>)}
                 </dl>
-                {record.description && <p className="mt-4 text-sm leading-relaxed text-gray-700">{String(record.description)}</p>}
+                {typeof record.description === 'string' && record.description.trim() !== '' && <p className="mt-4 text-sm leading-relaxed text-gray-700">{record.description}</p>}
               </section>
               <section className="rounded-2xl border border-gray-200 bg-white p-6">
                 <h2 className="font-bold text-gray-900">Timeline</h2>
