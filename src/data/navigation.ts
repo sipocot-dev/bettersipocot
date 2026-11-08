@@ -29,6 +29,10 @@ export const mainNavigation: NavigationItem[] = [
     label: 'Statistics',
     href: '/statistics',
   },
+  {
+    label: 'Barangays',
+    href: '/government/barangays',
+  },
 ];
 
 export const footerNavigation = {
