@@ -15,6 +15,7 @@ import Barangays, { BarangayDetail } from './pages/Barangays';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import Education from './pages/Education';
+import HealthServices from './pages/HealthServices';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/services/education" element={<Education />} />
+              <Route path="/services/health-services" element={<HealthServices />} />
               <Route path="/services/:category" element={<Services />} />
               <Route path="/services" element={<Services />} />
               <Route
