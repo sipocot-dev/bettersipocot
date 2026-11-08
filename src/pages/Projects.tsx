@@ -103,7 +103,7 @@ function ProjectMap({ projects }: { projects: Project[] }) {
       if (cancelled || !element.current) return;
       const mapInstance = L.map(element.current, { scrollWheelZoom: false }).setView([13.77, 122.98], 11);
       map = mapInstance;
-    const projectMarker = L.divIcon({ className: 'project-map-marker', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] });
+    const projectMarker = L.divIcon({ className: 'project-map-marker', html: '<span style="display:block;width:16px;height:16px;border:3px solid #fff;border-radius:50%;background:#2563eb;box-shadow:0 1px 5px rgba(0,0,0,.55)"></span>', iconSize: [18, 18], iconAnchor: [9, 9] });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 19,
