@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  BarChart3, Users, MapPin, Building2, Map, TrendingUp, FileText,
+  BarChart3, Users, MapPin, Building2, Map, FileText,
   ExternalLink, Trophy, Lightbulb, Shield, Zap, Globe, Search,
 } from 'lucide-react';
 import SEO from '../components/SEO';
