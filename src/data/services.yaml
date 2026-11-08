@@ -4,6 +4,12 @@
 # Non-technical users can easily edit this file to add, remove, or modify service categories
 
 categories:
+  # Banking & Financial Services
+  - category: 'Banks & Financial Services'
+    slug: 'banking-financial-services'
+    description: 'Find banks, rural banks, ATMs, microfinance institutions and financial cooperatives in Sipocot.'
+    icon: 'Landmark'
+
   # Faith & Worship Directory
   - category: 'Churches & Worship'
     slug: 'churches-worship'
