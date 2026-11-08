@@ -66,13 +66,21 @@ export default function Education() {
 
   return <>
     <SEO title="Education in Sipocot" description="Explore public schools, private schools and higher education institutions in Sipocot, Camarines Sur. Browse the directory in table or map view." keywords="Sipocot schools, DepEd Sipocot, CBSUA Sipocot, education Camarines Sur" />
-    <div className="bg-primary-900 text-white">
+    <div className="bg-[#0b3b8c] text-white">
       <Section className="px-4 py-10">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-200">BetterSipocot · Education</p>
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-100">BetterSipocot · Education</p>
         <h1 className="text-3xl font-bold sm:text-4xl">Schools and Universities in Sipocot</h1>
         <p className="mt-3 max-w-3xl text-blue-100">Find public and private schools, colleges, and higher education institutions across the municipality. Browse the directory, search by name or barangay, and view mapped campuses.</p>
       </Section>
     </div>
+    <Section className="px-4 pt-6">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="/services/education/enroll-children-in-lgu-daycare-or-preschool-programs" className="flex min-h-16 items-center justify-center rounded-lg bg-[#0b3b8c] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#082d6b] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">Daycare & Preschool Enrollment</a>
+        <a href="/services/education/apply-for-local-scholarships" className="flex min-h-16 items-center justify-center rounded-lg bg-[#0b3b8c] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#082d6b] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">Apply for Scholarships</a>
+        <a href="/services/education/access-educational-support-programs-from-the-lgu" className="flex min-h-16 items-center justify-center rounded-lg bg-[#0b3b8c] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#082d6b] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">Educational Support Programs</a>
+        <a href="/services/education/learn-about-supplementary-activities-for-schools-in-your-area" className="flex min-h-16 items-center justify-center rounded-lg bg-[#0b3b8c] px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#082d6b] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">School Activities</a>
+      </div>
+    </Section>
     <Section className="px-4 py-8">
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
